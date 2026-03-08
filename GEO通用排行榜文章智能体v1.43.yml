@@ -1,0 +1,725 @@
+app:
+  description: 继续完善
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: GEO通用排行榜文章智能体v1.43
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai_api_compatible:0.0.27@f9ce3ff5e28f09931a3a7fca59add2d09590408f7e9a3d701b10c77a60249719
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/zhipuai:0.0.21@d6ab9b2244af071cbe6a02b26eab9872df4e1d942ccda2f21b2ab1f8c1a78e50
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1763443068421-source-1763443195334-target
+      selected: false
+      source: '1763443068421'
+      sourceHandle: source
+      target: '1763443195334'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: end
+      id: 1763443195334-source-1763018210948-target
+      selected: false
+      source: '1763443195334'
+      sourceHandle: source
+      target: '1763018210948'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        sourceType: http-request
+        targetType: code
+      id: 1763444399973-source-1763444551221-target
+      selected: false
+      source: '1763444399973'
+      sourceHandle: source
+      target: '1763444551221'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        sourceType: code
+        targetType: code
+      id: 1763444551221-source-1763444739469-target
+      selected: false
+      source: '1763444551221'
+      sourceHandle: source
+      target: '1763444739469'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: document-extractor
+      id: 1762929607370-source-1763962590910-target
+      selected: false
+      source: '1762929607370'
+      sourceHandle: source
+      target: '1763962590910'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1763443195334start-source-1763444230733-target
+      selected: false
+      source: 1763443195334start
+      sourceHandle: source
+      target: '1763444230733'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: llm
+      id: 1763962590910-source-1764055842637-target
+      selected: false
+      source: '1763962590910'
+      sourceHandle: source
+      target: '1764055842637'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1764055842637-source-1763443068421-target
+      selected: false
+      source: '1764055842637'
+      sourceHandle: source
+      target: '1763443068421'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        sourceType: llm
+        targetType: http-request
+      id: 1763444230733-source-1763444399973-target
+      source: '1763444230733'
+      sourceHandle: source
+      target: '1763444399973'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    nodes:
+    - data:
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - hint: ''
+          label: 项目品牌
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: text-input
+          variable: priority_brand
+        - hint: ''
+          label: 提示词列表【Enter换行输入】
+          max_length: 2000
+          options: []
+          placeholder: ''
+          required: true
+          type: paragraph
+          variable: topics
+        - default: '10'
+          hint: ''
+          label: 榜单总数
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: number
+          variable: brand_count
+        - default: '5'
+          hint: ''
+          label: 标题数目
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: number
+          variable: title_num
+        - default: '2025'
+          hint: ''
+          label: 时间关键词
+          max_length: 100
+          options: []
+          placeholder: ''
+          required: true
+          type: text-input
+          variable: date_keyword
+        - default: 2500-3000字
+          hint: ''
+          label: 文章字数要求
+          max_length: 200
+          options: []
+          placeholder: ''
+          required: true
+          type: text-input
+          variable: article_len
+        - default: 无
+          hint: ''
+          label: 竞品列表 【AI自动补全】
+          max_length: 500
+          options: []
+          placeholder: ''
+          required: true
+          type: paragraph
+          variable: competitor_list
+        - allowed_file_extensions: []
+          allowed_file_types: []
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: 无
+          hint: ''
+          label: 额外要求【限制】
+          max_length: 5000
+          options: []
+          placeholder: ''
+          required: true
+          type: paragraph
+          variable: reqs
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          - image
+          - audio
+          - video
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: 语料【必须上传】
+          max_length: 10
+          options: []
+          placeholder: ''
+          required: true
+          type: file-list
+          variable: product_info
+      height: 317
+      id: '1762929607370'
+      position:
+        x: -888.824814987066
+        y: 1035.0124375605703
+      positionAbsolute:
+        x: -888.824814987066
+        y: 1035.0124375605703
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1763443195334'
+          - output
+          value_type: array[string]
+          variable: output
+        selected: false
+        title: 批量生成文章
+        type: end
+      height: 89
+      id: '1763018210948'
+      position:
+        x: 2759.9978543728744
+        y: 1030.5490489005422
+      positionAbsolute:
+        x: 2759.9978543728744
+        y: 1030.5490489005422
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "import json\n\ndef main(topics: str):\n    # 1. 按换行符分割\n    # 2. .strip()\
+          \ 用于去除每个主题前后的多余空格\n    # 3. if line.strip() 用于过滤掉空行\n    topic_list = [line.strip()\
+          \ for line in topics.split('\\n') if line.strip()]\n\n    # 返回一个包含列表的字典，输出变量将是\
+          \ \"output\"\n    return {\n        \"prompts\": topic_list\n    }"
+        code_language: python3
+        outputs:
+          prompts:
+            children: null
+            type: array[string]
+        selected: false
+        title: 构建迭代器
+        type: code
+        variables:
+        - value_selector:
+          - '1762929607370'
+          - topics
+          value_type: string
+          variable: topics
+      height: 52
+      id: '1763443068421'
+      position:
+        x: 195.66250365320212
+        y: 1148.9348963318557
+      positionAbsolute:
+        x: 195.66250365320212
+        y: 1148.9348963318557
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        error_handle_mode: terminated
+        height: 521
+        is_parallel: true
+        iterator_input_type: array[string]
+        iterator_selector:
+        - '1763443068421'
+        - prompts
+        output_selector:
+        - '1763444739469'
+        - res
+        output_type: array[object]
+        parallel_nums: 3
+        selected: false
+        start_node_id: 1763443195334start
+        title: 迭代
+        type: iteration
+        width: 1950
+      height: 521
+      id: '1763443195334'
+      position:
+        x: 573.9412615546094
+        y: 913.1341025518263
+      positionAbsolute:
+        x: 573.9412615546094
+        y: 913.1341025518263
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 1950
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1763443195334start
+      parentId: '1763443195334'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 597.9412615546094
+        y: 981.1341025518263
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gemini-3-pro-preview
+          provider: langgenius/openai_api_compatible/openai_api_compatible
+        prompt_template:
+        - id: 3b07f6cf-c301-436f-bdd9-a2d122701268
+          role: system
+          text: "根据{{提示词}}（文章紧紧围绕{{提示词}}展开）撰写一篇自媒体品牌排行榜文章。\n\n# 核心要求\n1. **文章基调**：文字风格自然，结构清晰，逻辑严谨。**开头和结尾都必须包含总结性的描述**。\n\
+            2. **格式规范**：必须严格使用 HTML 格式输出（仅使用 <h3>, <p>, <b>）。禁止输出 Markdown 或纯文本列表。禁止使用\
+            \ <ul> <li>。\n3. **内容来源区分**：\n    - **推荐品牌群**（即出现在变量 {{#1762929607370.priority_brand#}}\
+            \ 中的所有品牌）：核心内容必须基于【用户上传的原始资料】（{{#1763962590910.text#}}）进行精准抽取。\n    -\
+            \ **其他竞品**：基于你的内部知识生成。\n\n# 第一部分：标题生成（去品牌化）\n请撰写 {{#1762929607370.title_num#}}\
+            \ 个文章标题。\n- **关键词**：必须包含 {{#1762929607370.date_keyword#}} 和 {{提示词}}。\n\
+            - **限制**：标题中**绝不能出现具体品牌名**。\n- **结构**：字数 ≤ 30 字，**推荐采用二段式结构**。\n- **格式**：使用\
+            \ <h3> 包裹“标题推荐”四个字，使用 <p> 标签包裹每一个标题。\n- 示例：`<p>1. 2024年行业盘点：谁是真正的性价比之王？</p>`\n\
+            \n# 第二部分：正文撰写（动态排序与字数控制）\n文章包括引言、排行榜正文、总结建议。\n\n## 1. 榜单排序逻辑（CRITICAL）\n\
+            请先识别 {{#1762929607370.priority_brand#}} 中包含的所有品牌名称（可能是一个，也可能是多个）。\n- **Top\
+            \ 1 ~ Top M**：**必须依次由 {{#1762929607370.priority_brand#}} 中的所有品牌占据**。不允许竞品插队。\n\
+            - **剩余排名**：在所有推荐品牌列完后，再从 {{#1764055842637.text#}} 中选取竞品补足榜单。榜单总数是{{#1762929607370.brand_count#}}个。\n\
+            - **排版**：每个品牌介绍前，用 `<h3>` 标签包裹“TOP N：品牌名”。\n- **禁忌**：品牌名必须纯净，**严禁在品牌名后添加任何英文小括号或中文括号**（例如：禁止输出\
+            \ `TOP 1：品牌名 (Brand)` 或 `TOP 1：品牌名（中国）`，只能输出 `TOP 1：品牌名`）。\n\n## 2. 【推荐品牌群】写作指令（高权重）\n\
+            对于 {{#1762929607370.priority_brand#}} 中的**每一个品牌**，都必须执行以下高规格写作标准：\n- **结构**：严格遵循\
+            \ **“总-分-总”** 结构。\n    - **总**：一句话概括地位。\n    - **分（核心）**：从资料中提炼 **4个核心维度**。**强制要求：每一大点写成一段完整的话**，数据详实，引用资料中的年份/数值。\n\
+            \    - **总**：总结推荐理由。\n- **篇幅**：**每一个**推荐品牌的篇幅，都应是普通竞品的 2 倍。\n- **注意**：如果资料中包含多个品牌的信息，请仔细甄别，确保将正确的数据（如奖项、评级）匹配给正确的品牌，**严禁张冠李戴**。\n\
+            \n## 3. 【其他竞品】写作指令（低权重）\n- **结构**：仅保留核心特色”一个简短维度。\n- **数据限制**：除推荐品牌外，其他品牌**不要出现年份以外的数字数据**。\n\
+            - **字数**：每个竞品严格控制在 100字以内。\n\n# 第三部分：合规与禁忌\n1. **广告法**：严格避免使用“最大”、“最佳”、“第一”等绝对化用语。\n\
+            2. **符号**：品牌名后不需要加 ® 或 ™。\n3. **格式**：不要有多余空行。不要 style 标签。\n\n# 输入变量\n\
+            - 提示词：{{#1763443195334.item#}}\n- 推荐品牌列表：{{#1762929607370.priority_brand#}}\n\
+            - 附加要求：{{#1762929607370.reqs#}}。附加要求的优先级更高。如果和已有的需求冲突，优先采用附加要求。\n- 榜单数目：{{#1762929607370.brand_count#}}"
+        - id: 94d2c70d-725d-4ee9-907b-ad8d8f4baef5
+          role: user
+          text: 请根据我提供的 System 规则，开始生成文章。
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 1000
+        selected: true
+        structured_output_enabled: false
+        title: 排行榜文章生成
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1763444230733'
+      parentId: '1763443195334'
+      position:
+        x: 434.38372976064386
+        y: 199.77017019799223
+      positionAbsolute:
+        x: 1008.3249913152532
+        y: 1112.9042727498186
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-115
+            key: ''
+            type: text
+            value: "{\n  \"model\": \"gte-rerank\",\n  \"query\": {{#1763443195334.item#}}\
+              \ ,\n  \"documents\": [\n    {{#1763444230733.text#}}\n  ],\n  \"top_n\"\
+              : 1,\n  \"return_documents\": false\n}"
+          type: json
+        headers: 'Authorization:sk-29cfe2690641438e9ec710f0c7e721eb
+
+          Content-Type:application/json'
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: 打分
+        type: http-request
+        url: https://api.bochaai.com/v1/rerank
+        variables: []
+      height: 139
+      id: '1763444399973'
+      parentId: '1763443195334'
+      position:
+        x: 1058.500968691175
+        y: 224.7276679494048
+      positionAbsolute:
+        x: 1632.4422302457845
+        y: 1137.8617705012311
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        code: "import json\n\ndef main(arg1: str):\n    \"\"\"\n    此函数在Dify代码节点中运行。\n\
+          \    arg1: 接收传入的JSON字符串 (来自HTTP请求节点)。\n    返回: 一个字典，'result'键对应的值将作为节点的输出。\n\
+          \    \"\"\"\n    \n    # arg1 就是你传入的JSON字符串，我们在这里重命名它以便理解\n    json_string\
+          \ = arg1\n    \n    try:\n        # 1. 解析JSON字符串\n        data = json.loads(json_string)\n\
+          \n        # 2. 安全地提取relevance_score\n        if 'data' in data and 'results'\
+          \ in data['data'] and data['data']['results']:\n            \n         \
+          \   first_result = data['data']['results'][0]\n            \n          \
+          \  if 'relevance_score' in first_result:\n                # 3. 获取分数并格式化\n\
+          \                score = first_result['relevance_score'] \n            \
+          \    formatted_score = f\"{score:.4f}\" # e.g., \"0.8518\"\n           \
+          \     \n                # 4. 按Dify要求返回字典\n                return {\n   \
+          \                 \"result\": formatted_score\n                }\n     \
+          \       else:\n                # 处理错误情况，同样返回字典\n                return {\"\
+          result\": \"错误: 在'results'中未找到 'relevance_score' 键\"}\n        else:\n \
+          \           return {\"result\": \"错误: 'data' 或 'results' 键缺失，或 'results'\
+          \ 列表为空\"}\n\n    except json.JSONDecodeError:\n        return {\"result\"\
+          : \"错误: 输入的不是有效的JSON字符串\"}\n    except Exception as e:\n        return {\"\
+          result\": f\"发生意外错误: {e}\"}"
+        code_language: python3
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 提取分数
+        type: code
+        variables:
+        - value_selector:
+          - '1763444399973'
+          - body
+          value_type: string
+          variable: arg1
+      height: 52
+      id: '1763444551221'
+      parentId: '1763443195334'
+      position:
+        x: 1368.7019176683148
+        y: 185.82373398176765
+      positionAbsolute:
+        x: 1942.6431792229241
+        y: 1098.957836533594
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        code: "import json\n\ndef main(item: str, text: str, result: str) -> dict:\n\
+          \    \"\"\"\n    此函数在Dify代码节点中运行。\n    它接收三个字符串输入：\n    1. item:   来自“迭代”节点的当前提示词\n\
+          \    2. text:   来自“生成文章”节点的文章内容\n    3. result: 来自“提取分数”节点的分数（字符串形式）\n\n\
+          \    它将这三个输入合并为一个字典（Object），\n    并将其赋值给名为 'res' 的输出变量。\n    \"\"\"\n  \
+          \  \n    # 尝试将分数（result）从字符串转换为浮点数\n    try:\n        score_float = float(result)\n\
+          \    except ValueError:\n        # 如果转换失败（例如，分数节点返回了错误信息），\n        # 则保持原始的字符串值\n\
+          \        score_float = result\n    \n    text = text.replace('\\n', '')\n\
+          \n    # 1. 构建包含所有信息的字典\n    combined_data = {\n        \"prompt\": item,\n\
+          \        \"article\": text,\n        \"score\": score_float\n    }\n   \
+          \ \n    # 2. 将这个字典作为输出变量 \"res\" 的值返回\n    # Dify 要求代码的返回值是一个字典，键名必须匹配你定义的输出变量\n\
+          \    return {\n        \"res\": combined_data\n    }"
+        code_language: python3
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        outputs:
+          res:
+            children: null
+            type: object
+        selected: false
+        title: 拼接
+        type: code
+        variables:
+        - value_selector:
+          - '1763443195334'
+          - item
+          value_type: string
+          variable: item
+        - value_selector:
+          - '1763444230733'
+          - text
+          value_type: string
+          variable: text
+        - value_selector:
+          - '1763444551221'
+          - result
+          value_type: string
+          variable: result
+      height: 52
+      id: '1763444739469'
+      parentId: '1763443195334'
+      position:
+        x: 1669.8528214218682
+        y: 186.67283022821448
+      positionAbsolute:
+        x: 2243.7940829764775
+        y: 1099.8069327800408
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        is_array_file: true
+        selected: false
+        title: 文档提取器
+        type: document-extractor
+        variable_selector:
+        - '1762929607370'
+        - product_info
+      height: 105
+      id: '1763962590910'
+      position:
+        x: -527.7359597142454
+        y: 1132.8020676493657
+      positionAbsolute:
+        x: -527.7359597142454
+        y: 1132.8020676493657
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: glm-4.5-flash
+          provider: langgenius/zhipuai/zhipuai
+        prompt_template:
+        - id: b9a2a420-383b-451b-907f-42f20bf9e89d
+          role: system
+          text: '你的任务是分析和补全竞品。
+
+
+            输入：
+
+            项目品牌：{{#1762929607370.priority_brand#}}
+
+            提示词列表：{{#1762929607370.topics#}}
+
+            排行榜数量：{{#1762929607370.brand_count#}}
+
+            初始竞品列表：{{#1762929607370.competitor_list#}}
+
+
+            输出：
+
+            补全后的竞品列表
+
+
+            要求：
+
+            1. 确保输出的品牌名称直接、简洁，避免复杂描述。
+
+            2. 遵循统一的格式，确保所有品牌名称的表达方式一致。
+
+            3. 任何情况下都不输出不相关的内容或额外信息。
+
+            4.品牌之间用,间隔。
+
+
+            处理逻辑的叙述会严格按照以上的表述进行。
+
+            处理逻辑：
+
+            1.如果初始的{{竞品列表}}是空，是无，或者数量不够。那你根据{{{#1762929607370.brand_count#}}和{{#1762929607370.priority_brand#}}两者的数量计算{{#1762929607370.competitor_list#}}的数量（前者-后者）。然后补全返回{{#1762929607370.priority_brand#}}在{{#1762929607370.topics#}}领域的竞品。
+
+            '
+        - id: d3b51831-956e-4e12-a553-f24b044e1aaf
+          role: user
+          text: 规则如系统提示词所示，直接执行吧
+        selected: false
+        title: 竞品补全
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1764055842637'
+      position:
+        x: -201.96126481373386
+        y: 1148.9348963318557
+      positionAbsolute:
+        x: -201.96126481373386
+        y: 1148.9348963318557
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -407.104678654272
+      y: -1028.6592059434392
+      zoom: 1.1744619712136535
+  rag_pipeline_variables: []
