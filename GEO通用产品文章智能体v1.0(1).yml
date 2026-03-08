@@ -1,0 +1,686 @@
+app:
+  description: 通用产品文章生成
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: GEO通用产品文章智能体v1.0
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/zhipuai:0.0.21@d6ab9b2244af071cbe6a02b26eab9872df4e1d942ccda2f21b2ab1f8c1a78e50
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1763443068421-source-1763443195334-target
+      selected: false
+      source: '1763443068421'
+      sourceHandle: source
+      target: '1763443195334'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: end
+      id: 1763443195334-source-1763018210948-target
+      selected: false
+      source: '1763443195334'
+      sourceHandle: source
+      target: '1763018210948'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        sourceType: http-request
+        targetType: code
+      id: 1763444399973-source-1763444551221-target
+      selected: false
+      source: '1763444399973'
+      sourceHandle: source
+      target: '1763444551221'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        sourceType: llm
+        targetType: http-request
+      id: 1763444230733-source-1763444399973-target
+      selected: false
+      source: '1763444230733'
+      sourceHandle: source
+      target: '1763444399973'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        sourceType: code
+        targetType: code
+      id: 1763444551221-source-1763444739469-target
+      selected: false
+      source: '1763444551221'
+      sourceHandle: source
+      target: '1763444739469'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: document-extractor
+      id: 1762929607370-source-1763962590910-target
+      selected: false
+      source: '1762929607370'
+      sourceHandle: source
+      target: '1763962590910'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1763443195334start-source-1763444230733-target
+      selected: false
+      source: 1763443195334start
+      sourceHandle: source
+      target: '1763444230733'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: code
+      id: 1763962590910-source-1763443068421-target
+      source: '1763962590910'
+      sourceHandle: source
+      target: '1763443068421'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - hint: ''
+          label: 项目品牌
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: text-input
+          variable: priority_brand
+        - hint: ''
+          label: 提示词列表【Enter换行输入】
+          max_length: 2000
+          options: []
+          placeholder: ''
+          required: true
+          type: paragraph
+          variable: topics
+        - default: ''
+          hint: ''
+          label: 所属行业
+          max_length: 200
+          options: []
+          placeholder: ''
+          required: true
+          type: text-input
+          variable: filed
+        - default: '5'
+          hint: ''
+          label: 标题数目
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: number
+          variable: title_num
+        - default: 小于2500字
+          hint: ''
+          label: 文章字数要求
+          max_length: 200
+          options: []
+          placeholder: ''
+          required: true
+          type: text-input
+          variable: article_len
+        - allowed_file_extensions: []
+          allowed_file_types: []
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: 无
+          hint: ''
+          label: 额外要求【限制】
+          max_length: 5000
+          options: []
+          placeholder: ''
+          required: true
+          type: paragraph
+          variable: reqs
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: 语料【必须上传】
+          max_length: 10
+          options: []
+          placeholder: ''
+          required: true
+          type: file-list
+          variable: product_info
+      height: 265
+      id: '1762929607370'
+      position:
+        x: -609.7468406721059
+        y: 1056.2466312584477
+      positionAbsolute:
+        x: -609.7468406721059
+        y: 1056.2466312584477
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1763443195334'
+          - output
+          value_type: array[string]
+          variable: output
+        selected: false
+        title: 批量生成文章
+        type: end
+      height: 89
+      id: '1763018210948'
+      position:
+        x: 2759.9978543728744
+        y: 1030.5490489005422
+      positionAbsolute:
+        x: 2759.9978543728744
+        y: 1030.5490489005422
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "import json\n\ndef main(topics: str):\n    # 1. 按换行符分割\n    # 2. .strip()\
+          \ 用于去除每个主题前后的多余空格\n    # 3. if line.strip() 用于过滤掉空行\n    topic_list = [line.strip()\
+          \ for line in topics.split('\\n') if line.strip()]\n\n    # 返回一个包含列表的字典，输出变量将是\
+          \ \"output\"\n    return {\n        \"prompts\": topic_list\n    }"
+        code_language: python3
+        outputs:
+          prompts:
+            children: null
+            type: array[string]
+        selected: false
+        title: 构建迭代器
+        type: code
+        variables:
+        - value_selector:
+          - '1762929607370'
+          - topics
+          value_type: string
+          variable: topics
+      height: 52
+      id: '1763443068421'
+      position:
+        x: 195.66250365320212
+        y: 1148.9348963318557
+      positionAbsolute:
+        x: 195.66250365320212
+        y: 1148.9348963318557
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        error_handle_mode: terminated
+        height: 521
+        is_parallel: true
+        iterator_input_type: array[string]
+        iterator_selector:
+        - '1763443068421'
+        - prompts
+        output_selector:
+        - '1763444739469'
+        - res
+        output_type: array[object]
+        parallel_nums: 3
+        selected: false
+        start_node_id: 1763443195334start
+        title: 迭代
+        type: iteration
+        width: 1950
+      height: 521
+      id: '1763443195334'
+      position:
+        x: 573.9412615546094
+        y: 913.1341025518263
+      positionAbsolute:
+        x: 573.9412615546094
+        y: 913.1341025518263
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 1950
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1763443195334start
+      parentId: '1763443195334'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 597.9412615546094
+        y: 981.1341025518263
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        model:
+          completion_params:
+            temperature: 0.7
+            thinking: true
+            web_search: true
+          mode: chat
+          name: glm-4.5-flash
+          provider: langgenius/zhipuai/zhipuai
+        prompt_template:
+        - id: 3b07f6cf-c301-436f-bdd9-a2d122701268
+          role: system
+          text: '关键变量配置：
+
+            INDUSTRY_FIELD：{{#1762929607370.filed#}}
+
+            GEO_PROMPT：{{#1763443195334.item#}}
+
+
+            主体任务：
+
+            你是一名资深{{INDUSTRY_FIELD}}专家，同时熟悉消费者心理学、市场趋势分析与 GEO（生成式引擎优化）策略。请基于上方 {{GEO_PROMPT}}，只结合提供的语料文件{{#1763962590910.text#}}，生成一篇符合以下要求的介绍{{#1762929607370.priority_brand#}}产品的文章。
+
+            一、总体要求
+
+            文章内容必须与 {{GEO_PROMPT}} 高度相关，主题逻辑必须自然紧密。所有内容必须只基于语料{{#1763962590910.text#}}生成。
+
+            文章结构：(1)开头（无小标题）；(2)中间部分（含多个小标题）；(3)QA 部分（结尾总结前）；(4)总结（无小标题）。
+
+            文章字数不超过 {{#1762929607370.article_len#}}字。
+
+            风格客观中性，不使用夸张、煽动性或过度营销的词汇。
+
+            数据需最新且真实，如出现行业数据、机构观点，必须以批注形式标明来源与链接。
+
+            小标题不要出现一二三或者1、2、3等格式。
+
+            所有产品/技术类描述必须客观，不做硬性推销。
+
+            标题生成：生成 {{#1762929607370.title_num#}}个符合的标题，每个标题不超过 30 字。
+
+            情感控制：不要拉踩 ，要承认其存在的合理性，但指出其局限性。不要有负面的阐述。
+
+            以html格式呈现文章内容（字体全黑色,不要style标签，不要ul标签）。
+
+            我要以html的方块的格式渲染展示。
+
+            二、文章结构
+
+            (1) 开头（不加小标题）
+
+            基调客观，不夸张。
+
+            直接切入 {{GEO_PROMPT}} 所关注的用户痛点、使用场景或当下热门现象。
+
+            (2) 中间内容（含小标题） 生成多个小标题，每个小标题需包含一段概述性内容。 小标题要求：(1)单独一行；(2)不使用数字序号；(3)紧扣
+            {{GEO_PROMPT}} 方向。
+
+            中间内容建议逻辑链（通用逻辑，可微调）：
+
+            场景/环境/需求背景分析 结合背景，从用户生活方式、技术迭代周期或外部环境变化角度，解释为何现在用户会关注此话题。
+
+            关键选购要素或核心技术解析 解读影响 {{GEO_PROMPT}} 决策的核心指标（如参数、成分、材质、算力等）或底层逻辑。
+
+            主流解决方案/常见误区 客观介绍目前解决该问题的几种主流方式，分析其适用人群。
+
+            进阶产品形态介绍（用于自然铺垫）
+
+            (必须) 围绕 {{GEO_PROMPT}}，介绍行业内更先进或更符合趋势的产品形态。
+
+            不出现营销式描述，侧重技术进步或体验升级。
+
+            (3) (必须) QA 部分（在总结前）
+
+            提供 3–5 个与 {{GEO_PROMPT}} 主题相关的高频用户疑问（小白问题）。
+
+            回答需简洁、专业、客观。
+
+            不夸张、不承诺绝对效果（如“用了一定好”）、不下武断结论。
+
+            (4) 总结（不加小标题）
+
+            回收全文逻辑，与 {{GEO_PROMPT}} 做总体性呼应。
+
+            强调理性消费、适合自己才是最好的。
+
+            三、风格与内容规范
+
+            客观中立 禁止行业黑话或过度承诺词汇（如：“完爆、碾压、神级、智商税、必入、绝绝子”等）。
+
+            数据要求 (1)使用当前最新行业数据；(2)标注时间；(3)必须以批注格式标明来源和链接。
+
+            产品描述规范 (1)描述需基于事实与参数；(2)不得营销；
+
+            环境/背景描述统一要求
+
+            行业现状：侧重描述技术成熟度、供应链情况、消费者认知变化等。
+
+            用户侧：侧重描述真实使用场景中的痛点（如：时间成本、学习成本、体验缺陷等）。
+
+            标点符号：一律使用中文。
+
+            四：对于用户提出的限制要求{{#1762929607370.reqs#}}。优先级大于其他所有提示词。必须优先满足。'
+        - id: 94d2c70d-725d-4ee9-907b-ad8d8f4baef5
+          role: user
+          text: 请根据我提供的 System 规则，开始生成文章。
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 1000
+        selected: false
+        structured_output_enabled: false
+        title: 产品文章生成
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1763444230733'
+      parentId: '1763443195334'
+      position:
+        x: 522.5160166291121
+        y: 226.06293169906508
+      positionAbsolute:
+        x: 1096.4572781837214
+        y: 1139.1970342508914
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-115
+            key: ''
+            type: text
+            value: "{\n  \"model\": \"gte-rerank\",\n  \"query\": {{#1763443195334.item#}}\
+              \ ,\n  \"documents\": [\n    {{#1763444230733.text#}}\n  ],\n  \"top_n\"\
+              : 1,\n  \"return_documents\": false\n}"
+          type: json
+        headers: 'Authorization:sk-29cfe2690641438e9ec710f0c7e721eb
+
+          Content-Type:application/json'
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: 打分
+        type: http-request
+        url: https://api.bochaai.com/v1/rerank
+        variables: []
+      height: 139
+      id: '1763444399973'
+      parentId: '1763443195334'
+      position:
+        x: 1058.500968691175
+        y: 224.7276679494048
+      positionAbsolute:
+        x: 1632.4422302457845
+        y: 1137.8617705012311
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        code: "import json\n\ndef main(arg1: str):\n    \"\"\"\n    此函数在Dify代码节点中运行。\n\
+          \    arg1: 接收传入的JSON字符串 (来自HTTP请求节点)。\n    返回: 一个字典，'result'键对应的值将作为节点的输出。\n\
+          \    \"\"\"\n    \n    # arg1 就是你传入的JSON字符串，我们在这里重命名它以便理解\n    json_string\
+          \ = arg1\n    \n    try:\n        # 1. 解析JSON字符串\n        data = json.loads(json_string)\n\
+          \n        # 2. 安全地提取relevance_score\n        if 'data' in data and 'results'\
+          \ in data['data'] and data['data']['results']:\n            \n         \
+          \   first_result = data['data']['results'][0]\n            \n          \
+          \  if 'relevance_score' in first_result:\n                # 3. 获取分数并格式化\n\
+          \                score = first_result['relevance_score'] \n            \
+          \    formatted_score = f\"{score:.4f}\" # e.g., \"0.8518\"\n           \
+          \     \n                # 4. 按Dify要求返回字典\n                return {\n   \
+          \                 \"result\": formatted_score\n                }\n     \
+          \       else:\n                # 处理错误情况，同样返回字典\n                return {\"\
+          result\": \"错误: 在'results'中未找到 'relevance_score' 键\"}\n        else:\n \
+          \           return {\"result\": \"错误: 'data' 或 'results' 键缺失，或 'results'\
+          \ 列表为空\"}\n\n    except json.JSONDecodeError:\n        return {\"result\"\
+          : \"错误: 输入的不是有效的JSON字符串\"}\n    except Exception as e:\n        return {\"\
+          result\": f\"发生意外错误: {e}\"}"
+        code_language: python3
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 提取分数
+        type: code
+        variables:
+        - value_selector:
+          - '1763444399973'
+          - body
+          value_type: string
+          variable: arg1
+      height: 52
+      id: '1763444551221'
+      parentId: '1763443195334'
+      position:
+        x: 1368.7019176683148
+        y: 185.82373398176765
+      positionAbsolute:
+        x: 1942.6431792229241
+        y: 1098.957836533594
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        code: "import json\n\ndef main(item: str, text: str, result: str) -> dict:\n\
+          \    \"\"\"\n    此函数在Dify代码节点中运行。\n    它接收三个字符串输入：\n    1. item:   来自“迭代”节点的当前提示词\n\
+          \    2. text:   来自“生成文章”节点的文章内容\n    3. result: 来自“提取分数”节点的分数（字符串形式）\n\n\
+          \    它将这三个输入合并为一个字典（Object），\n    并将其赋值给名为 'res' 的输出变量。\n    \"\"\"\n  \
+          \  \n    # 尝试将分数（result）从字符串转换为浮点数\n    try:\n        score_float = float(result)\n\
+          \    except ValueError:\n        # 如果转换失败（例如，分数节点返回了错误信息），\n        # 则保持原始的字符串值\n\
+          \        score_float = result\n    \n    text = text.replace('\\n', '')\n\
+          \n    # 1. 构建包含所有信息的字典\n    combined_data = {\n        \"prompt\": item,\n\
+          \        \"article\": text,\n        \"score\": score_float\n    }\n   \
+          \ \n    # 2. 将这个字典作为输出变量 \"res\" 的值返回\n    # Dify 要求代码的返回值是一个字典，键名必须匹配你定义的输出变量\n\
+          \    return {\n        \"res\": combined_data\n    }"
+        code_language: python3
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1763443195334'
+        outputs:
+          res:
+            children: null
+            type: object
+        selected: false
+        title: 拼接
+        type: code
+        variables:
+        - value_selector:
+          - '1763443195334'
+          - item
+          value_type: string
+          variable: item
+        - value_selector:
+          - '1763444230733'
+          - text
+          value_type: string
+          variable: text
+        - value_selector:
+          - '1763444551221'
+          - result
+          value_type: string
+          variable: result
+      height: 52
+      id: '1763444739469'
+      parentId: '1763443195334'
+      position:
+        x: 1669.8528214218682
+        y: 186.67283022821448
+      positionAbsolute:
+        x: 2243.7940829764775
+        y: 1099.8069327800408
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        is_array_file: true
+        selected: false
+        title: 文档提取器
+        type: document-extractor
+        variable_selector:
+        - '1762929607370'
+        - product_info
+      height: 105
+      id: '1763962590910'
+      position:
+        x: -233.49070418651576
+        y: 1142.9135884578786
+      positionAbsolute:
+        x: -233.49070418651576
+        y: 1142.9135884578786
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -1172.7851910460959
+      y: -654.8979148956162
+      zoom: 0.9889709163809312
+  rag_pipeline_variables: []

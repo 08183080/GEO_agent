@@ -1,0 +1,220 @@
+app:
+  description: 适配 Dify v1.10.1。专为 AI 搜索引擎 (Perplexity, SearchGPT) 优化的批量文章生成器。
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: GEO 批量文章生成 (v1.10)
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      enabled: false
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInverted: false
+        sourceType: start
+        targetType: llm
+      id: start-llm_strategist
+      source: start
+      target: llm_strategist
+    - data:
+        isInverted: false
+        sourceType: llm
+        targetType: llm
+      id: llm_strategist-llm_writer
+      source: llm_strategist
+      target: llm_writer
+    - data:
+        isInverted: false
+        sourceType: llm
+        targetType: code
+      id: llm_writer-code_json_ld
+      source: llm_writer
+      target: code_json_ld
+    - data:
+        isInverted: false
+        sourceType: code
+        targetType: end
+      id: code_json_ld-end
+      source: code_json_ld
+      target: end
+    nodes:
+    - data:
+        desc: 输入文章主题
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: topic
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: topic
+      height: 90
+      id: start
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-start
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 生成 GEO 结构大纲
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: openai
+        prompt_template:
+        - id: system
+          role: system
+          text: "你是一个 GEO (Generative Engine Optimization) 策略专家。\n你的目标是规划一篇文章的结构，使其容易被 AI 搜索引擎（如 Perplexity, SearchGPT）引用。\n\n**GEO 大纲要求：**\n1.  **直接答案 (Direct Answer)：** 第一部分必须是对主题的直接定义或总结（AI 抓取首段作为 Featured Snippet）。\n2.  **结构化数据点：** 规划一个章节专门用于“对比表格”或“关键统计数据”。\n3.  **语义覆盖：** 列出 5-10 个与该主题强相关的 LSI 关键词或实体名词，要求在正文中提及。\n4.  **用户意图 (User Intent)：** 包含 FAQ 部分。"
+        - id: user
+          role: user
+          text: "请为主题：{{#start.topic#}} 生成大纲。"
+        selected: false
+        title: 1. GEO 策略大纲
+        type: llm
+        vision:
+          enabled: false
+      height: 98
+      id: llm_strategist
+      position:
+        x: 380
+        y: 282
+      positionAbsolute:
+        x: 380
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: llm
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 深度撰写与格式化
+        model:
+          completion_params:
+            temperature: 0.5
+          mode: chat
+          name: gpt-4o
+          provider: openai
+        prompt_template:
+        - id: system
+          role: system
+          text: "你是一位专业的技术/商业作家，精通 GEO 写作风格。\n请根据用户提供的大纲撰写一篇完整的博客文章。\n\n**写作原则 (至关重要)：**\n1.  **高信息密度：** 删除所有废话（如“在当今数字化的世界里...”）。直接切入主题。\n2.  **Markdown 格式：** 必须正确使用 H1, H2, H3。必须包含一个 Markdown 表格。\n3.  **客观语气：** 模仿维基百科或权威研报的语调，避免过度营销。\n4.  **列表优化：** 遇到步骤或要点，必须使用 Bullet Points，这利于 AI 抓取。"
+        - id: user
+          role: user
+          text: "这里是大纲：\n{{#llm_strategist.text#}}\n\n请开始撰写正文。"
+        selected: false
+        title: 2. 正文撰写
+        type: llm
+        vision:
+          enabled: false
+      height: 98
+      id: llm_writer
+      position:
+        x: 680
+        y: 282
+      positionAbsolute:
+        x: 680
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: llm
+      width: 244
+    - data:
+        code: "def main(title: str, summary: str) -> dict:\n    import json\n    \n    # 简单的 Schema 生成逻辑\n    schema = {\n        \"@context\": \"https://schema.org\",\n        \"@type\": \"Article\",\n        \"headline\": title,\n        \"description\": summary[:150] + \"...\",\n        \"author\": {\n            \"@type\": \"Organization\",\n            \"name\": \"Expert Agent\"\n        },\n        \"datePublished\": \"2025-01-01\"\n    }\n    \n    script_tag = f'<script type=\"application/ld+json\">{json.dumps(schema)}</script>'\n    \n    return {\n        \"json_ld\": script_tag\n    }\n"
+        code_language: python3
+        desc: 生成 SEO Schema 代码
+        outputs:
+          json_ld:
+            type: string
+        selected: false
+        title: 3. JSON-LD 生成
+        type: code
+        variables:
+        - value_selector:
+          - start
+          - topic
+          variable: title
+        - value_selector:
+          - llm_writer
+          - text
+          variable: summary
+      height: 54
+      id: code_json_ld
+      position:
+        x: 980
+        y: 282
+      positionAbsolute:
+        x: 980
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: code
+      width: 244
+    - data:
+        desc: 输出最终结果
+        outputs:
+        - value_selector:
+          - llm_writer
+          - text
+          variable: article_content
+        - value_selector:
+          - code_json_ld
+          - json_ld
+          variable: seo_schema
+        selected: false
+        title: 结束
+        type: end
+      height: 90
+      id: end
+      position:
+        x: 1280
+        y: 282
+      positionAbsolute:
+        x: 1280
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-end
+      width: 244
+    viewport:
+      x: 0
+      y: 0
+      zoom: 1
